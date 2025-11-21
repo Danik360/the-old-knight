@@ -8,7 +8,7 @@ public class EnemyAttck : MonoBehaviour
     // Переменные для кулдауна атаки
     private bool canAttack = true;
     [SerializeField] private float attackCooldown = 2f;
-    [SerializeField] private float attackRange = 1f;
+    [SerializeField] private float attackRange = 0.6f;
     
     void Start()
     {
