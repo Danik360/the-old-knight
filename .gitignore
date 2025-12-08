@@ -8,8 +8,10 @@
 [Mm]emoryCaptures/
 UserSettings/
 
+
 # Visual Studio
 .vs/
+.vscode/
 *.csproj
 *.sln
 *.user
@@ -28,6 +30,3 @@ Thumbs.db
 .idea/
 *.sln.iml
 
-# Packages
-Packages/manifest.json
-Packages/packages-lock.json
