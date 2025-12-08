@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -3166824652548579228}
   - component: {fileID: -5117667481040825857}
   - component: {fileID: 7674267414511724829}
+  - component: {fileID: 7043318501634442762}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Enemy
@@ -133,8 +134,7 @@ MonoBehaviour:
   Me: {fileID: 6936698408539989819}
   Livestat: 1
   PlayerDamage: 0
-  Damage: 1
-  HP: 10
+  HP: 2
 --- !u!58 &-5117667481040825857
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -186,3 +186,16 @@ MonoBehaviour:
   Damage: 1
   attackCooldown: 2
   attackRange: 1
+--- !u!114 &7043318501634442762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936698408539989819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6d8012fb2d44354eb9c7b749b37faf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3

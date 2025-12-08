@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Player_attack : MonoBehaviour
 {
-    public Sprite[] Herts;
     private Movement PlayerAnim;
     public int EnemyDamage;
     private EnemyAttck EnemyAttack;
@@ -16,7 +15,25 @@ public class Player_attack : MonoBehaviour
         PlayerAnim = GameObject.Find("player").GetComponent<Movement>();
         isAttacking = false;
         animator = GetComponent<Animator>();
-        EnemyAttack = GameObject.Find("enemy").GetComponent<EnemyAttck>();
+        
+        // Поиск врага по тегу "Enemy"
+        GameObject enemyObj = GameObject.FindGameObjectWithTag("Enemy");
+        if (enemyObj != null)
+        {
+            EnemyAttack = enemyObj.GetComponent<EnemyAttck>();
+            if (EnemyAttack != null)
+            {
+                Debug.Log("Враг найден по тегу: " + enemyObj.name);
+            }
+            else
+            {
+                Debug.LogError("Компонент EnemyAttck не найден на объекте с тегом 'Enemy'");
+            }
+        }
+        else
+        {
+            Debug.LogError("Объект с тегом 'Enemy' не найден в сцене");
+        }
     }
 
     void Update()
@@ -25,7 +42,16 @@ public class Player_attack : MonoBehaviour
         {
             StartAttack();
         }
-        EnemyDamage = EnemyAttack.Damage;
+        
+        // Безопасное обращение к EnemyAttack
+        if (EnemyAttack != null)
+        {
+            EnemyDamage = EnemyAttack.Damage;
+        }
+        else
+        {
+            EnemyDamage = 1; // Значение по умолчанию
+        }
     }
 
     void StartAttack()
@@ -43,12 +69,14 @@ public class Player_attack : MonoBehaviour
     public void PlayerTakeDamage()
     {
         HP -= EnemyDamage;
-        PlayerAnim.CollorChange();
+        if (PlayerAnim != null)
+            {
+                PlayerAnim.CollorChange();
+            }
         if (HP <= 0)
         {
             Debug.Log("YOU DIED");
             // TODO Смерть игрока
-            // Destroy(Me);
         }
     }
 }

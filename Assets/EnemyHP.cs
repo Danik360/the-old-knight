@@ -6,7 +6,7 @@ public class EnemyHP : MonoBehaviour
     private Player_attack attack;
     public bool Livestat;
     public int PlayerDamage;
-    public int HP;
+    public int HP = 2;
 
     void Start()
     {
