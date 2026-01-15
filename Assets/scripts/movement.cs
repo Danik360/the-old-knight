@@ -13,16 +13,14 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool useContinuousCollision = true;  // ← Непрерывная коллизия
     [SerializeField] private bool isTrigger = false;  // ← Триггер или коллизия
 
-    [Header("References")]
-    [SerializeField] private HPSystem playerStats;
-    [SerializeField] private Animator playerAnimator;
     
+    private HPSystem Playerstat;
     private Animator animator;
     private Rigidbody2D rb;
     private CircleCollider2D playerCollider;  // ← Ссылка на коллайдер
     private float horizontal;
     private float vertical;
-    private int currentHP;
+    private int HP;
 
     private void Awake()
     {
@@ -71,8 +69,8 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
-        // Use serialized references if available, otherwise get component
-        animator = playerAnimator != null ? playerAnimator : GetComponent<Animator>();
+        Playerstat = GameObject.Find("Player").GetComponent<HPSystem>();
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         
         // Пересоздаем коллайдер при старте (если нужно)
@@ -83,27 +81,18 @@ public class Movement : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        
-        if (playerStats != null)
-        {
-            currentHP = playerStats.HP;
-        }
+        HP = attack.HP;
     }
 
     void FixedUpdate()
     {
-        if (currentHP > 0)
+        if (HP > 0)
         {
             HandleMovement();
         }
         else
         {
             rb.linearVelocity = Vector2.zero;
-            // Optionally play death animation here
-            if (animator != null)
-            {
-                animator.SetBool("IsDead", true);
-            }
         }
     }
 
@@ -122,44 +111,9 @@ public class Movement : MonoBehaviour
         }
     }
 
-    [Header("Effects")]
-    [SerializeField] private float invincibilityDuration = 0.5f;
-    private bool isInvincible = false;
-    private SpriteRenderer spriteRenderer;
-    
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>(); // Cache the sprite renderer
-
-        SetupRigidbody();
-        SetupCollider();
-    }
-    
     public void CollorChange()
     {
-        if (!isInvincible && spriteRenderer != null)
-        {
-            StartCoroutine(FlashEffect());
-        }
-    }
-    
-    private System.Collections.IEnumerator FlashEffect()
-    {
-        isInvincible = true;
-        float flashDuration = 0.1f;
-        int flashes = 3;
-        
-        for (int i = 0; i < flashes; i++)
-        {
-            spriteRenderer.color = Color.red;
-            yield return new WaitForSeconds(flashDuration);
-            spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(flashDuration);
-        }
-        
-        isInvincible = false;
+        animator.SetTrigger("Collortrigger");
     }
 
     // ← ПУБЛИЧНЫЕ МЕТОДЫ ДЛЯ ИЗМЕНЕНИЯ РАДИУСА ВО ВРЕМЯ ИГРЫ
