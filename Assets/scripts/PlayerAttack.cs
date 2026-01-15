@@ -12,7 +12,6 @@ public class Player_attack : MonoBehaviour
 
     void Start()
     {
-        PlayerAnim = GameObject.Find("player").GetComponent<Movement>();
         isAttacking = false;
         animator = GetComponent<Animator>();
         
@@ -64,19 +63,5 @@ public class Player_attack : MonoBehaviour
     public void OnAttackEnd()
     {
         isAttacking = false;
-    }
-
-    public void PlayerTakeDamage()
-    {
-        HP -= EnemyDamage;
-        if (PlayerAnim != null)
-            {
-                PlayerAnim.CollorChange();
-            }
-        if (HP <= 0)
-        {
-            Debug.Log("YOU DIED");
-            // TODO Смерть игрока
-        }
     }
 }
