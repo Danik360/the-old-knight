@@ -122,9 +122,44 @@ public class Movement : MonoBehaviour
         }
     }
 
+    [Header("Effects")]
+    [SerializeField] private float invincibilityDuration = 0.5f;
+    private bool isInvincible = false;
+    private SpriteRenderer spriteRenderer;
+    
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>(); // Cache the sprite renderer
+
+        SetupRigidbody();
+        SetupCollider();
+    }
+    
     public void CollorChange()
     {
-        animator.SetTrigger("Collortrigger");
+        if (!isInvincible && spriteRenderer != null)
+        {
+            StartCoroutine(FlashEffect());
+        }
+    }
+    
+    private System.Collections.IEnumerator FlashEffect()
+    {
+        isInvincible = true;
+        float flashDuration = 0.1f;
+        int flashes = 3;
+        
+        for (int i = 0; i < flashes; i++)
+        {
+            spriteRenderer.color = Color.red;
+            yield return new WaitForSeconds(flashDuration);
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(flashDuration);
+        }
+        
+        isInvincible = false;
     }
 
     // ← ПУБЛИЧНЫЕ МЕТОДЫ ДЛЯ ИЗМЕНЕНИЯ РАДИУСА ВО ВРЕМЯ ИГРЫ

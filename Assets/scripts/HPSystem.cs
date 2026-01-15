@@ -53,11 +53,21 @@ public class HPSystem : MonoBehaviour
     
     [SerializeField] private movement playerMovement;
     
-    public void PlayerTakeDamage(int damage = 1)
+    [Header("Damage Settings")]
+    [SerializeField] private int defaultDamage = 1;
+    [SerializeField] private bool canTakeDamage = true;
+    
+    public void PlayerTakeDamage(int damage = -1)
     {
+        // Use default damage if not specified
+        if (damage == -1) damage = defaultDamage;
+        
+        if (!canTakeDamage) return;
+        
         HP -= damage;
         HP = Mathf.Clamp(HP, 0, maxHP); // Ensure HP stays within bounds
         
+        // Trigger color change effect through movement script
         if (playerMovement != null)
         {
             playerMovement.CollorChange();
@@ -66,8 +76,25 @@ public class HPSystem : MonoBehaviour
         if (HP <= 0)
         {
             Debug.Log("YOU DIED");
-            // TODO Смерть игрока
+            OnPlayerDeath();
         }
+    }
+    
+    private void OnPlayerDeath()
+    {
+        // Disable taking damage when dead
+        canTakeDamage = false;
+        // TODO Смерть игрока - добавьте реализацию смерти
+    }
+    
+    public void EnableDamageTaking(bool enable)
+    {
+        canTakeDamage = enable;
+    }
+    
+    public bool CanTakeDamage()
+    {
+        return canTakeDamage && HP > 0;
     }
     
     public void Heal(int amount)
