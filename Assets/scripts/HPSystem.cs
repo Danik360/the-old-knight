@@ -5,18 +5,28 @@ public class HPSystem : MonoBehaviour
 {
     public GameObject MindBreakerCanvas;
     public Image MindBreak;
-    public Image spriteRenderer;
+    public Image heartsImage;
     public Image HPBar;
     public int HP;
+    public int maxHP = 4;
     public Sprite[] Hearts;
+    [SerializeField] private movement playerMovement;
 
     void Start()
     {
         MindBreakerCanvas.SetActive(false);
-        // Более безопасный поиск объектов
-        spriteRenderer = GameObject.Find("Hearts")?.GetComponent<Image>();
+        
+        // Получаем компоненты через Inspector или через поиск
+        if (heartsImage == null)
+        {
+            var heartsObj = GameObject.Find("Hearts");
+            if (heartsObj != null)
+            {
+                heartsImage = heartsObj.GetComponent<Image>();
+            }
+        }
 
-        if (spriteRenderer == null)
+        if (heartsImage == null)
         {
             Debug.LogError("Hearts Image component not found!");
         }
@@ -24,50 +34,55 @@ public class HPSystem : MonoBehaviour
 
     void Update()
     {
-        // Обновляем HP каждый кадр
-        if (PlayerHP != null)
-        {
-            HP = PlayerHP.HP;
-        }
-
         // Обновляем спрайт сердца в зависимости от HP
-        if (spriteRenderer != null && Hearts != null && Hearts.Length > 0)
+        if (heartsImage != null && Hearts != null && Hearts.Length > 0)
         {
+            // Ensure HP doesn't exceed array bounds
+            int heartIndex = Mathf.Clamp(maxHP - HP, 0, Hearts.Length - 1);
+            if (heartIndex < Hearts.Length)
+            {
+                heartsImage.sprite = Hearts[heartIndex];
+            }
+            
             if (HP <= 0)
             {
-                spriteRenderer.sprite = Hearts[0];
                 MindBreakerCanvas.SetActive(true);
-            }
-            else if (HP == 1)
-            {
-                spriteRenderer.sprite = Hearts[1];
-            }
-            else if (HP == 2)
-            {
-                spriteRenderer.sprite = Hearts[2];
-            }
-            else if (HP == 3)
-            {
-                spriteRenderer.sprite = Hearts[3];
-            }
-            else if (HP == 4)
-            {
-                spriteRenderer.sprite = Hearts[4];
             }
         }
     }
     
-    public void PlayerTakeDamage()
+    [SerializeField] private movement playerMovement;
+    
+    public void PlayerTakeDamage(int damage = 1)
     {
-        HP -= EnemyDamage;
-        if (PlayerAnim != null)
-            {
-                PlayerAnim.CollorChange();
-            }
+        HP -= damage;
+        HP = Mathf.Clamp(HP, 0, maxHP); // Ensure HP stays within bounds
+        
+        if (playerMovement != null)
+        {
+            playerMovement.CollorChange();
+        }
+        
         if (HP <= 0)
         {
             Debug.Log("YOU DIED");
             // TODO Смерть игрока
         }
+    }
+    
+    public void Heal(int amount)
+    {
+        HP += amount;
+        HP = Mathf.Clamp(HP, 0, maxHP);
+    }
+    
+    public bool IsAlive()
+    {
+        return HP > 0;
+    }
+    
+    public void ResetHP()
+    {
+        HP = maxHP;
     }
 }

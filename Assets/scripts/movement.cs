@@ -13,13 +13,16 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool useContinuousCollision = true;  // ← Непрерывная коллизия
     [SerializeField] private bool isTrigger = false;  // ← Триггер или коллизия
 
-    private HPSystem Playerstat;
+    [Header("References")]
+    [SerializeField] private HPSystem playerStats;
+    [SerializeField] private Animator playerAnimator;
+    
     private Animator animator;
     private Rigidbody2D rb;
     private CircleCollider2D playerCollider;  // ← Ссылка на коллайдер
     private float horizontal;
     private float vertical;
-    private int HP;
+    private int currentHP;
 
     private void Awake()
     {
@@ -68,8 +71,8 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
-        attack = GameObject.Find("Player").GetComponent<HPSystem>();
-        animator = GetComponent<Animator>();
+        // Use serialized references if available, otherwise get component
+        animator = playerAnimator != null ? playerAnimator : GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         
         // Пересоздаем коллайдер при старте (если нужно)
@@ -80,18 +83,27 @@ public class Movement : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        HP = attack.HP;
+        
+        if (playerStats != null)
+        {
+            currentHP = playerStats.HP;
+        }
     }
 
     void FixedUpdate()
     {
-        if (HP > 0)
+        if (currentHP > 0)
         {
             HandleMovement();
         }
         else
         {
             rb.linearVelocity = Vector2.zero;
+            // Optionally play death animation here
+            if (animator != null)
+            {
+                animator.SetBool("IsDead", true);
+            }
         }
     }
 
