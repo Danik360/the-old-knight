@@ -10,6 +10,7 @@ public class EnemyHP : MonoBehaviour
 
     void Start()
     {
+        PlayerAnim = GameObject.Find("player").GetComponent<Movement>();
         Livestat = true;
         attack = GameObject.Find("forwsrd").GetComponent<Player_attack>();
     }

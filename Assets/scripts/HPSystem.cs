@@ -8,21 +8,14 @@ public class HPSystem : MonoBehaviour
     public Image spriteRenderer;
     public Image HPBar;
     public int HP;
-    public Player_attack PlayerHP;
     public Sprite[] Hearts;
-    
+
     void Start()
     {
         MindBreakerCanvas.SetActive(false);
         // Более безопасный поиск объектов
-        PlayerHP = GameObject.Find("forwsrd")?.GetComponent<Player_attack>();
         spriteRenderer = GameObject.Find("Hearts")?.GetComponent<Image>();
-        
-        if (PlayerHP == null)
-        {
-            Debug.LogError("Player_attack component not found!");
-        }
-        
+
         if (spriteRenderer == null)
         {
             Debug.LogError("Hearts Image component not found!");
@@ -36,7 +29,7 @@ public class HPSystem : MonoBehaviour
         {
             HP = PlayerHP.HP;
         }
-        
+
         // Обновляем спрайт сердца в зависимости от HP
         if (spriteRenderer != null && Hearts != null && Hearts.Length > 0)
         {
@@ -61,6 +54,20 @@ public class HPSystem : MonoBehaviour
             {
                 spriteRenderer.sprite = Hearts[4];
             }
+        }
+    }
+    
+    public void PlayerTakeDamage()
+    {
+        HP -= EnemyDamage;
+        if (PlayerAnim != null)
+            {
+                PlayerAnim.CollorChange();
+            }
+        if (HP <= 0)
+        {
+            Debug.Log("YOU DIED");
+            // TODO Смерть игрока
         }
     }
 }
