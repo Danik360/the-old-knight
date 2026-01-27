@@ -12,7 +12,6 @@ public class Player_attack : MonoBehaviour
 
     void Start()
     {
-        PlayerAnim = GameObject.Find("player").GetComponent<Movement>();
         isAttacking = false;
         animator = GetComponent<Animator>();
         
@@ -20,19 +19,7 @@ public class Player_attack : MonoBehaviour
         GameObject enemyObj = GameObject.FindGameObjectWithTag("Enemy");
         if (enemyObj != null)
         {
-            EnemyAttack = enemyObj.GetComponent<EnemyAttck>();
-            if (EnemyAttack != null)
-            {
-                Debug.Log("Враг найден по тегу: " + enemyObj.name);
-            }
-            else
-            {
-                Debug.LogError("Компонент EnemyAttck не найден на объекте с тегом 'Enemy'");
-            }
-        }
-        else
-        {
-            Debug.LogError("Объект с тегом 'Enemy' не найден в сцене");
+            EnemyAttack = enemyObj.GetComponent<EnemyAttck>();    
         }
     }
 
@@ -64,19 +51,5 @@ public class Player_attack : MonoBehaviour
     public void OnAttackEnd()
     {
         isAttacking = false;
-    }
-
-    public void PlayerTakeDamage()
-    {
-        HP -= EnemyDamage;
-        if (PlayerAnim != null)
-            {
-                PlayerAnim.CollorChange();
-            }
-        if (HP <= 0)
-        {
-            Debug.Log("YOU DIED");
-            // TODO Смерть игрока
-        }
     }
 }

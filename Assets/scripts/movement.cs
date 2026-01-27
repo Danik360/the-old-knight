@@ -13,13 +13,16 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool useContinuousCollision = true;  // ← Непрерывная коллизия
     [SerializeField] private bool isTrigger = false;  // ← Триггер или коллизия
 
-    private HPSystem Playerstat;
     private Animator animator;
+    public int Memorys;
     private Rigidbody2D rb;
     private CircleCollider2D playerCollider;  // ← Ссылка на коллайдер
     private float horizontal;
     private float vertical;
     private int HP;
+    public GameObject EndGame;
+    public bool GameStatus;
+    [SerializeField] public HPSystem HPSystem;
 
     private void Awake()
     {
@@ -33,7 +36,7 @@ public class Movement : MonoBehaviour
     void SetupRigidbody()
     {
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-        rb.collisionDetectionMode = useContinuousCollision ? 
+        rb.collisionDetectionMode = useContinuousCollision ?
             CollisionDetectionMode2D.Continuous : CollisionDetectionMode2D.Discrete;
         rb.freezeRotation = true;
         rb.gravityScale = 0f;
@@ -43,7 +46,7 @@ public class Movement : MonoBehaviour
     {
         // Находим существующий коллайдер
         playerCollider = GetComponent<CircleCollider2D>();
-        
+
         // Удаляем старые коллайдеры (кроме нашего)
         Collider2D[] oldColliders = GetComponents<Collider2D>();
         foreach (var coll in oldColliders)
@@ -68,24 +71,32 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
-        attack = GameObject.Find("Player").GetComponent<HPSystem>();
+        EndGame.SetActive(false);
+        GameStatus = true;
+
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        
+
         // Пересоздаем коллайдер при старте (если нужно)
         SetupCollider();
     }
 
     void Update()
     {
+        if (Memorys == 4)
+        {
+            EndGame.SetActive(true);
+            GameStatus = false;
+        }
+
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        HP = attack.HP;
+        HP = HPSystem.HP;
     }
 
     void FixedUpdate()
     {
-        if (HP > 0)
+        if ((HP > 0) || (GameStatus == true))
         {
             HandleMovement();
         }
@@ -137,8 +148,14 @@ public class Movement : MonoBehaviour
         if (playerCollider != null)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position + (Vector3)playerCollider.offset, 
+            Gizmos.DrawWireSphere(transform.position + (Vector3)playerCollider.offset,
                 playerCollider.radius);
         }
+    }
+
+    public void MemoryCounter()
+    {
+        Memorys++;
+
     }
 }

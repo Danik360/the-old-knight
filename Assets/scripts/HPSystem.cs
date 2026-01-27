@@ -5,18 +5,29 @@ public class HPSystem : MonoBehaviour
 {
     public GameObject MindBreakerCanvas;
     public Image MindBreak;
-    public Image spriteRenderer;
+    public Image heartsImage;
     public Image HPBar;
-    public int HP;
+    private int maxHP = 4;
+    public int HP = 4;
     public Sprite[] Hearts;
+    [SerializeField] private Movement playerMovement;
 
     void Start()
     {
+        HP = 4;
         MindBreakerCanvas.SetActive(false);
-        // Более безопасный поиск объектов
-        spriteRenderer = GameObject.Find("Hearts")?.GetComponent<Image>();
+        
+        // Получаем компоненты через Inspector или через поиск
+        if (heartsImage == null)
+        {
+            var heartsObj = GameObject.Find("Hearts");
+            if (heartsObj != null)
+            {
+                heartsImage = heartsObj.GetComponent<Image>();
+            }
+        }
 
-        if (spriteRenderer == null)
+        if (heartsImage == null)
         {
             Debug.LogError("Hearts Image component not found!");
         }
@@ -24,50 +35,83 @@ public class HPSystem : MonoBehaviour
 
     void Update()
     {
-        // Обновляем HP каждый кадр
-        if (PlayerHP != null)
-        {
-            HP = PlayerHP.HP;
-        }
-
         // Обновляем спрайт сердца в зависимости от HP
-        if (spriteRenderer != null && Hearts != null && Hearts.Length > 0)
+        if (heartsImage != null && Hearts != null && Hearts.Length > 0)
         {
+            // Ensure HP doesn't exceed array bounds
+            int heartIndex = Mathf.Clamp(maxHP - HP, 0, Hearts.Length - 1);
+            if (heartIndex < Hearts.Length)
+            {
+                heartsImage.sprite = Hearts[heartIndex];
+            }
+            
             if (HP <= 0)
             {
-                spriteRenderer.sprite = Hearts[0];
                 MindBreakerCanvas.SetActive(true);
-            }
-            else if (HP == 1)
-            {
-                spriteRenderer.sprite = Hearts[1];
-            }
-            else if (HP == 2)
-            {
-                spriteRenderer.sprite = Hearts[2];
-            }
-            else if (HP == 3)
-            {
-                spriteRenderer.sprite = Hearts[3];
-            }
-            else if (HP == 4)
-            {
-                spriteRenderer.sprite = Hearts[4];
             }
         }
     }
     
-    public void PlayerTakeDamage()
+    [Header("Damage Settings")]
+    [SerializeField] private int defaultDamage = 1;
+    [SerializeField] private bool canTakeDamage = true;
+    
+    public void PlayerTakeDamage(int damage = -1)
     {
-        HP -= EnemyDamage;
-        if (PlayerAnim != null)
-            {
-                PlayerAnim.CollorChange();
-            }
+        // Use default damage if not specified
+        if (damage == -1) damage = defaultDamage;
+        
+        if (!canTakeDamage) return;
+        
+        HP -= damage;
+        HP = Mathf.Clamp(HP, 0, maxHP); // Ensure HP stays within bounds
+        
+        // Trigger color change effect through movement script
+        if (playerMovement != null)
+        {
+            playerMovement.CollorChange();
+        }
+        
         if (HP <= 0)
         {
             Debug.Log("YOU DIED");
-            // TODO Смерть игрока
+            OnPlayerDeath();
         }
+    }
+
+    private void GameEnd()
+    {
+        if (playerMovement.GameStatus == false)
+        {
+            canTakeDamage = false;
+        }
+    }
+    
+    private void OnPlayerDeath()
+    {
+        // Disable taking damage when dead
+        canTakeDamage = false;
+        // TODO Смерть игрока - добавьте реализацию смерти
+    }
+    
+    public void EnableDamageTaking(bool enable)
+    {
+        canTakeDamage = enable;
+    }
+    
+    public bool CanTakeDamage()
+    {
+        return canTakeDamage && HP > 0;
+    }
+    
+    public void Heal(int amount)
+    {
+        HP += amount;
+        HP = Mathf.Clamp(HP, 0, maxHP);
+    }
+    
+    public bool IsAlive()
+    {
+        return HP > 0;
     }
 }

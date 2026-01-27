@@ -48,15 +48,12 @@ public class AttackTrigger : MonoBehaviour
             
             if (isAttacking && canAttack && !hasHitThisAttack && hitEnemys.Length > 0)
             {
-                Debug.Log("взмах - обнаружено коллайдеров: " + hitEnemys.Length);
                 hasHitThisAttack = true;
                 
                 foreach (Collider2D enemyCollider in hitEnemys)
                 {
                     if (enemyCollider.CompareTag("Enemy") && enemyCollider.gameObject != attackCollision)
-                    {
-                        Debug.Log("Попал во врага: " + enemyCollider.name);
-                        
+                    {         
                         // Наносим урон конкретному врагу
                         EnemyHP enemy = enemyCollider.GetComponent<EnemyHP>();
                         if (enemy != null)
@@ -82,7 +79,6 @@ public class AttackTrigger : MonoBehaviour
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
         hasHitThisAttack = false;
-        Debug.Log("Атака готова к использованию");
     }
 
     private void OnDrawGizmosSelected()

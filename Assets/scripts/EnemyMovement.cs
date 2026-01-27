@@ -9,12 +9,6 @@ public class EnemyMovement : MonoBehaviour
     {
         // Убрал повторное объявление GameObject - используем поле класса
         playerObj = GameObject.FindGameObjectWithTag("Player");
-        
-        // Проверка на null для безопасности
-        if (playerObj == null)
-        {
-            Debug.LogError("Объект с тегом 'Player' не найден!");
-        }
     }
 
     void Update()
