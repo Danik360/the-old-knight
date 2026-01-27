@@ -7,10 +7,10 @@ public class HPSystem : MonoBehaviour
     public Image MindBreak;
     public Image heartsImage;
     public Image HPBar;
-    private int maxHP = 4;
-    public int HP = 4;
+    public int HP;
+    public int maxHP = 4;
     public Sprite[] Hearts;
-    [SerializeField] private Movement playerMovement;
+    [SerializeField] private movement playerMovement;
 
     void Start()
     {
@@ -52,6 +52,8 @@ public class HPSystem : MonoBehaviour
         }
     }
     
+    [SerializeField] private movement playerMovement;
+    
     [Header("Damage Settings")]
     [SerializeField] private int defaultDamage = 1;
     [SerializeField] private bool canTakeDamage = true;
@@ -76,14 +78,6 @@ public class HPSystem : MonoBehaviour
         {
             Debug.Log("YOU DIED");
             OnPlayerDeath();
-        }
-    }
-
-    private void GameEnd()
-    {
-        if (playerMovement.GameStatus == false)
-        {
-            canTakeDamage = false;
         }
     }
     
@@ -113,5 +107,10 @@ public class HPSystem : MonoBehaviour
     public bool IsAlive()
     {
         return HP > 0;
+    }
+    
+    public void ResetHP()
+    {
+        HP = maxHP;
     }
 }

@@ -13,6 +13,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool useContinuousCollision = true;  // ← Непрерывная коллизия
     [SerializeField] private bool isTrigger = false;  // ← Триггер или коллизия
 
+    
+    private HPSystem Playerstat;
     private Animator animator;
     public int Memorys;
     private Rigidbody2D rb;
@@ -71,9 +73,7 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
-        EndGame.SetActive(false);
-        GameStatus = true;
-
+        Playerstat = GameObject.Find("Player").GetComponent<HPSystem>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
