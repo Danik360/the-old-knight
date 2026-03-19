@@ -10,7 +10,7 @@ public class HPSystem : MonoBehaviour
     public int HP;
     public int maxHP = 4;
     public Sprite[] Hearts;
-    [SerializeField] private movement playerMovement;
+    [SerializeField] private Movement playerMovement;
 
     void Start()
     {
@@ -51,8 +51,6 @@ public class HPSystem : MonoBehaviour
             }
         }
     }
-    
-    [SerializeField] private movement playerMovement;
     
     [Header("Damage Settings")]
     [SerializeField] private int defaultDamage = 1;

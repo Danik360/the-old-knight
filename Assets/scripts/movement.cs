@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    private Vector2 PlayerLastPos;
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
@@ -83,6 +84,7 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        PlayerLastPos = transform.position; 
         if (Memorys == 4)
         {
             EndGame.SetActive(true);

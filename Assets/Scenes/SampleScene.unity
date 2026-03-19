@@ -633,6 +633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MemoriesINT: {fileID: 939804222}
   Movement: {fileID: 954726997}
+  FinishCanvas: {fileID: 270915808}
 --- !u!50 &379046229
 Rigidbody2D:
   serializedVersion: 5
@@ -1473,6 +1474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MemoriesINT: {fileID: 939804222}
   Movement: {fileID: 954726997}
+  FinishCanvas: {fileID: 270915808}
 --- !u!50 &671674015
 Rigidbody2D:
   serializedVersion: 5
@@ -2143,13 +2145,14 @@ MonoBehaviour:
   heartsImage: {fileID: 0}
   HPBar: {fileID: 1891649023}
   HP: 4
+  maxHP: 4
   Hearts:
   - {fileID: -589039341577397313, guid: 0e705a23e683fea46bb82e85d87b4b93, type: 3}
   - {fileID: -8551982709672439126, guid: 0a299ebab3b19004d926295aa479df83, type: 3}
   - {fileID: 2942542549760984935, guid: adc125f3ee84f1e46b5c1e0df7fbaf88, type: 3}
   - {fileID: 9152646822791245097, guid: 64c856548456110409771ce25dbb7b0b, type: 3}
   - {fileID: -1661897853672536525, guid: 8d48aa93fca148d4ba37a4d0b921792d, type: 3}
-  playerMovement: {fileID: 0}
+  playerMovement: {fileID: 954726997}
   defaultDamage: 1
   canTakeDamage: 1
 --- !u!58 &954727000
@@ -2377,6 +2380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MemoriesINT: {fileID: 939804222}
   Movement: {fileID: 954726997}
+  FinishCanvas: {fileID: 270915808}
 --- !u!61 &1436560104
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2709,7 +2713,7 @@ Transform:
   m_GameObject: {fileID: 1721246296}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 0.1, z: 0}
+  m_LocalPosition: {x: 2.841, y: -1.638, z: 0}
   m_LocalScale: {x: 115, y: 115, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2749,6 +2753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MemoriesINT: {fileID: 939804222}
   Movement: {fileID: 954726997}
+  FinishCanvas: {fileID: 270915808}
 --- !u!50 &1861383424
 Rigidbody2D:
   serializedVersion: 5
