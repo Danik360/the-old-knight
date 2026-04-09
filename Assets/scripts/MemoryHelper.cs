@@ -17,6 +17,7 @@ public class MemoryHelper : MonoBehaviour
     {
         if (Movement.Memorys == 4)
         {
+            Time.timeScale = 0;
             FinishCanvas.SetActive(true);
         }
         if (MemoriesINT != null)
