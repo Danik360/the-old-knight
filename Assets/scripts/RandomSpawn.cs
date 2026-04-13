@@ -24,7 +24,7 @@ public class RandomSpawn : MonoBehaviour
         }
 
 
-        InvokeRepeating("EnemySpawn", 2, 1);
+        // InvokeRepeating("EnemySpawn", 2, 1);
 
         // 1 Memories Support
         Vector2 PositionToSpawn1 = new Vector2(Random.Range(1, 56), Random.Range(-1, -50));

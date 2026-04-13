@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyHP : MonoBehaviour
 {
+    [SerializeField] Roomenemyspawn EnemSp;
+    public int Enemdie;
     private Movement PlayerAnim;
     public GameObject Me;
     private Player_attack attack;
@@ -24,10 +26,15 @@ public class EnemyHP : MonoBehaviour
     public void TakeDamage()
     {
         HP -= PlayerDamage;
+        Enemdie += 1;
         if (HP <= 0)
         {
             Livestat = false;
             Destroy(Me);
+        }
+        if (Enemdie == 4)
+        {
+            EnemSp.Revard();
         }
     }
 }
