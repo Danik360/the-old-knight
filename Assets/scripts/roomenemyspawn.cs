@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Roomenemyspawn : MonoBehaviour
 {
+    public int RandEnem;
     [SerializeField] private Transform Object;
     public GameObject enemy;
     void Start()
@@ -14,7 +15,7 @@ public class Roomenemyspawn : MonoBehaviour
 
     }
 
-    public void Revard()
+    public void Reward()
     {
         
     }

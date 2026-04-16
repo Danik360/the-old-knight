@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class GAMEMANAGER : MonoBehaviour
 {
+    [SerializeField] Reward RoomRew;
+    [SerializeField] Roomenemyspawn RoomSpawn;
+    public int EnemDie;
     public GameObject GameStartCanvas;
     void Start()
     {
@@ -24,5 +27,14 @@ public class GAMEMANAGER : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void CountKill()
+    {
+        EnemDie += 1;
+        if (EnemDie == RoomRew.CountEnemy)
+        {
+            RoomRew.RewardPlay();
+        }
     }
 }

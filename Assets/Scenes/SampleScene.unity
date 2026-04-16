@@ -148,6 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f631acdfb328c447af3c1837bcddb24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RoomRew: {fileID: 0}
+  RoomSpawn: {fileID: 0}
+  EnemDie: 0
   GameStartCanvas: {fileID: 2018560213}
 --- !u!4 &18977803
 Transform:

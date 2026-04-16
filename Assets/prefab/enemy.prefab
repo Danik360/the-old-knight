@@ -131,10 +131,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837b694451e7f054c97739eafed13d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GM: {fileID: 0}
+  EnemSp: {fileID: 0}
   Me: {fileID: 6936698408539989819}
-  Livestat: 1
-  PlayerDamage: 0
-  HP: 2
+  Livestat: 0
+  PlayerDamage: 1
+  HP: 1
 --- !u!58 &-5117667481040825857
 CircleCollider2D:
   m_ObjectHideFlags: 0
